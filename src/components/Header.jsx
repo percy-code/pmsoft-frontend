@@ -8,14 +8,15 @@ const Header = () => {
     <header className="px-4 py-5 bg-white border-b">
       <div className="md:flex md:justify-between">
         {/* Add logotype */}
-        <div>
+        <Link to={"/projects"}>
           <img src={Logo} alt="" className="w-3/12" />
-        </div>
+        </Link>
         <input
           type="search"
           placeholder="Buscar proyecto"
           className="rounded-lg lg:w-96 p-2 border"
         />
+
         {/* <Input label="Username" /> */}
         <div className="flex items-center gap-3">
           <Link to="/projects" className="font-bold uppercase">

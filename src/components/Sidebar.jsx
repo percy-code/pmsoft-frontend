@@ -10,13 +10,13 @@ const Sidebar = () => {
   return (
     <aside className="md:w-80 lg:w-96 px-5 py-10">
       <Typography variant="h4">Bienvenido: {auth.name} </Typography>
-      <div className="w-full flex justify-start my-2">
-        <Button>
-          <Link to="new-project" className="">
-            Nuevo Proyecto
-          </Link>
-        </Button>
-      </div>
+      {/* <div className="w-full flex justify-start my-2"> */}
+
+      <Link to="new-project" className="">
+        <Button>Nuevo Proyecto</Button>
+      </Link>
+
+      {/* </div> */}
     </aside>
   );
 };

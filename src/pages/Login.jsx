@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({});
   const { auth, setAuth, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +30,10 @@ const Login = () => {
       setAlert({});
       localStorage.setItem("token", data.data.token);
       setAuth(data.data);
+
+      // Redirect to Projects Page
+      navigate("/projects");
+      console.log(localStorage.getItem("token"));
     } catch (error) {
       setAlert({
         message: error.response.data.message,
@@ -87,7 +92,7 @@ const Login = () => {
         <input
           type="submit"
           value={"Iniciar sesión"}
-          className="bg-sky-700 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
+          className="bg-cyan-800 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
         />
       </form>
 
