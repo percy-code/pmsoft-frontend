@@ -33,7 +33,6 @@ const Login = () => {
 
       // Redirect to Projects Page
       navigate("/projects");
-      console.log(localStorage.getItem("token"));
     } catch (error) {
       setAlert({
         message: error.response.data.message,

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { Textarea } from "@material-tailwind/react";
@@ -6,12 +7,27 @@ import useProjects from "../hooks/useProjects";
 import Alert from "./Alert";
 
 const FormProject = () => {
+  const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [dateDelivery, setDateDelivery] = useState("");
   const [client, setClient] = useState("");
+  const { showAlert, submitProject, alert, project } = useProjects();
 
-  const { showAlert, submitProject, alert } = useProjects();
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.id) {
+      // Edit Proyect
+      setId(project._id);
+      setName(project.name);
+      setDescription(project.description);
+      setDateDelivery(project.dateDelivery?.split("T")[0]);
+      setClient(project.client);
+    } else {
+      // New Proyect
+    }
+  }, [params]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,9 +40,10 @@ const FormProject = () => {
     }
 
     // Pass data to the provider
-    await submitProject({ name, description, dateDelivery, client });
+    await submitProject({ id, name, description, dateDelivery, client });
 
     // Reset Form
+    setId(null);
     setName("");
     setDescription("");
     setDateDelivery("");
@@ -80,7 +97,7 @@ const FormProject = () => {
         />
       </div>
       <Button className="mt-4 mx-auto w-full" type="submit">
-        Button
+        {id ? "Actualizar" : "Crear"}
       </Button>
     </form>
   );
