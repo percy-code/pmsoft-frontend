@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import SpinnerLoading from "../components/SpinnerLoading";
 import useProjects from "../hooks/useProjects";
 import ModalFormTasks from "../components/ModalFormTasks";
+import ModalDeleteTask from "../components/ModalDeleteTask";
+import Task from "../components/Task";
+import Alert from "../components/Alert";
 
 const Project = () => {
   const params = useParams();
   const { id } = params;
-  const { getOneProject, project, loading, handleModalFormTask } =
+  const { getOneProject, project, loading, handleModalFormTask, alert } =
     useProjects();
   const { name } = project;
-
-  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     getOneProject(id);
   }, []);
 
+  //TODO: Optimize the form in show this component
   if (loading) return <SpinnerLoading />;
+
+  const { message } = alert;
+
   return (
     <>
       <div className="mt-10 rounded-lg py-4 flex justify-between">
-        <h1 className="font-black text-3xl">{name}</h1>
+        <h1 className="font-black text-2xl">{name}</h1>
         <div className="flex items-center gap-2 text-gray-400 hover:text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +49,7 @@ const Project = () => {
       </div>
       <button
         onClick={handleModalFormTask}
-        className="text-sm px-5 py-3 w-full sm:w-auto rounded-lg uppercase font-bold bg-cyan-400 text-white text-center flex gap-2 items-center justify-center"
+        className="text-sm px-3 py-2 w-full sm:w-auto rounded-lg uppercase font-bold bg-cyan-400 text-white text-center flex gap-2 items-center justify-center"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +67,29 @@ const Project = () => {
         </svg>
         Nueva tarea
       </button>
-      <ModalFormTasks modal={modal} setModal={setModal} />
+
+      <p className="text-2xl mt-4 text-center">Tareas del Proyecto</p>
+      <div className="flex justify-center">
+        <div className="md:w-1/3">{message && <Alert alert={alert} />}</div>
+      </div>
+      <div>
+        {project.tasks?.length ? (
+          project.tasks?.map((task) => <Task key={task._id} task={task} />)
+        ) : (
+          <p>Aún no has agregado tareas en este proyecto</p>
+        )}
+      </div>
+      <div className="flex items-center justify-between mt-10 border">
+        <p className="text-2xl mt-4 text-center">Colaboradores</p>
+        <Link
+          to={`/projects/new-colaborator/${project._id}`}
+          className="font-bold"
+        >
+          Añadir
+        </Link>
+      </div>
+      <ModalFormTasks />
+      <ModalDeleteTask />
     </>
   );
 };

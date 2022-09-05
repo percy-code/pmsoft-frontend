@@ -20,9 +20,8 @@ const EditProject = () => {
   if (loading) return "Cargando...";
   return (
     <div>
-      <h1>Editar proyecto: {project.name}</h1>
       <div className="bg-white shadow mt-10 rounded-lg mx-10 p-4 flex justify-between">
-        <h1 className="font-black text-3xl">{name}</h1>
+        <h1 className="font-black text-xl">Editar proyecto: {project.name}</h1>
         <div className="flex items-center gap-2 text-gray-400 hover:text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"

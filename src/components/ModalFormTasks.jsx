@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 const PRIORITIES = ["Low", "Medium", "High"];
 
 const ModalFormularioTarea = () => {
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
@@ -14,10 +15,33 @@ const ModalFormularioTarea = () => {
 
   const params = useParams();
 
-  const { modalFormTask, handleModalFormTask, showAlert, alert, submitTask } =
-    useProjects();
+  const {
+    modalFormTask,
+    handleModalFormTask,
+    showAlert,
+    alert,
+    submitTask,
+    task,
+  } = useProjects();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (task?._id) {
+      setId(task._id);
+      setName(task.name);
+      setDescription(task.description);
+      setDateDelivery(task.dateDelivery?.split("T")[0]);
+      setPriority(task.priority);
+      return;
+    }
+    // Reset the state in the component
+    setId("");
+    setName("");
+    setDescription("");
+    setDateDelivery("");
+    setPriority("");
+  }, [task]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if ([name, description, priority, dateDelivery].includes("")) {
@@ -28,13 +52,21 @@ const ModalFormularioTarea = () => {
       return;
     }
 
-    submitTask({
+    await submitTask({
+      id,
       name,
       description,
       dateDelivery,
       priority,
       project: params.id,
     });
+
+    // Reset the state in the component
+    setId("");
+    setName("");
+    setDescription("");
+    setDateDelivery("");
+    setPriority("");
   };
 
   const { message } = alert;
@@ -105,7 +137,7 @@ const ModalFormularioTarea = () => {
                     as="h3"
                     className="text-lg leading-6 font-bold text-gray-900"
                   >
-                    Crear tarea
+                    {id ? "Actualizar tarea" : "Crear tarea"}
                   </Dialog.Title>
 
                   {message && <Alert alert={alert} />}
@@ -162,7 +194,7 @@ const ModalFormularioTarea = () => {
                     </div>
                     <input
                       type="submit"
-                      value="Crear tarea"
+                      value={id ? "Actualizar tarea" : "Crear tarea"}
                       className="bg-cyan-400 hover:bg-cyan-600 w-full border rounded-lg p-3 text-white cursor-pointer"
                     />
                   </form>
