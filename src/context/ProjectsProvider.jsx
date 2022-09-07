@@ -13,6 +13,7 @@ const ProjectsProvider = ({ children }) => {
   const [task, setTask] = useState({});
   const [modalDeleteTask, setModalDeleteTask] = useState(false);
   const [collaborator, setCollaborator] = useState({});
+  const [modalDeleteCollaborator, setModalDeleteCollaborator] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,7 +39,7 @@ const ProjectsProvider = ({ children }) => {
     getProjects();
   }, []);
 
-  // Function to handle alert
+  //** Function to handle alert */
   const showAlert = (alert) => {
     setAlert(alert);
 
@@ -47,7 +48,7 @@ const ProjectsProvider = ({ children }) => {
     }, 2000);
   };
 
-  // Function to Send Project and Create
+  //** Function to Send Project and Create */
   const submitProject = async (project) => {
     if (project.id) {
       await editProject(project);
@@ -56,6 +57,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
+  //** GET ONE PROJECT */
   const getOneProject = async (id) => {
     setLoading(true);
     try {
@@ -81,6 +83,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
+  //** EDIT ONE PROJECT */
   const editProject = async (project) => {
     try {
       const token = localStorage.getItem("token");
@@ -120,6 +123,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
+  //** CREATE NEW PROJECT */
   const newProject = async (project) => {
     try {
       const token = localStorage.getItem("token");
@@ -149,6 +153,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
+  //** DELETE ONE PROJECT */
   const deleteProject = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -184,14 +189,14 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  // Handle modal in create task
+  //** HANDLE MODAL IN CREATE TASK */
   const handleModalFormTask = () => {
     setModalFormTask(!modalFormTask);
     // Reset the objet that contain the task
     setTask({});
   };
 
-  // Function to create task
+  //** FUNCTION TO CREATE A TASK */
   const createTask = async (task) => {
     try {
       const token = localStorage.getItem("token");
@@ -218,6 +223,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
+  //** EDIT A TASK */
   const editTask = async (task) => {
     try {
       const token = localStorage.getItem("token");
@@ -246,7 +252,8 @@ const ProjectsProvider = ({ children }) => {
       console.log(error);
     }
   };
-  // Handle create new task
+
+  //** HANDLE CREATE A NEW TASK */
   const submitTask = async (task) => {
     // Save task in database
     // Get project of task
@@ -257,19 +264,19 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  // Handle to edit a Task
+  //** HANDLE TO EDIT A TASK */
   const handleModalEditTask = (task) => {
     setTask(task);
     setModalFormTask(true);
   };
 
-  // Handle to delete one task
+  //** HANDLE TO DELETE ONE TASK */
   const handleModalDeleteTask = (taskParam) => {
     setTask(taskParam);
     setModalDeleteTask(!modalDeleteTask);
   };
 
-  // Function to delete one task
+  //** FUNCTION TO DELETE ONE TASK */
   const deleteOneTask = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -305,7 +312,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  // Handle to add colaborator to project
+  //** HANDLE TO ADD COLLABORATOR TO PROJECT */
   const submitCollaborator = async (email) => {
     setLoading(true);
     try {
@@ -337,6 +344,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
+  //** FUNCTION TO ADD COLLABORATOR */
   const addCollaborator = async (email) => {
     try {
       const token = localStorage.getItem("token");
@@ -355,6 +363,7 @@ const ProjectsProvider = ({ children }) => {
         config
       );
 
+      console.info(data);
       setAlert({
         message: data.message,
         error: false,
@@ -363,10 +372,56 @@ const ProjectsProvider = ({ children }) => {
       setCollaborator({});
       setAlert({});
     } catch (error) {
+      console.error("Error en Catch", error);
       setAlert({
         message: error.response.data.message,
         error: true,
       });
+    }
+  };
+
+  //** HANDLE MODAL TO DELETE A COLLABORATOR */
+  const handleModalDeleteCollaborator = (collaborator) => {
+    setModalDeleteCollaborator(!modalDeleteCollaborator);
+    setCollaborator(collaborator);
+  };
+
+  //** FUNCTION TO DELETE A COLLABORATOR */
+  const deleteCollaborator = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.post(
+        `/projects/delete-collaborator/${project._id}`,
+        { id: collaborator._id },
+        config
+      );
+
+      // Update the project to show news collaborators
+      const projectUpdated = { ...project };
+
+      projectUpdated.collaborators = projectUpdated.collaborators.filter(
+        (collaboratorState) => collaboratorState._id !== collaborator.id
+      );
+
+      setProject(projectUpdated);
+
+      setAlert({
+        message: data.message,
+        error: false,
+      });
+      setCollaborator({});
+      setModalDeleteCollaborator(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -392,6 +447,9 @@ const ProjectsProvider = ({ children }) => {
         collaborator,
         submitCollaborator,
         addCollaborator,
+        modalDeleteCollaborator,
+        handleModalDeleteCollaborator,
+        deleteCollaborator,
       }}
     >
       {children}

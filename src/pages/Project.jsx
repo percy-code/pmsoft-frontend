@@ -4,8 +4,10 @@ import SpinnerLoading from "../components/SpinnerLoading";
 import useProjects from "../hooks/useProjects";
 import ModalFormTasks from "../components/ModalFormTasks";
 import ModalDeleteTask from "../components/ModalDeleteTask";
+import ModalDeleteCollaborator from "../components/ModalDeleteCollaborator";
 import Task from "../components/Task";
 import Alert from "../components/Alert";
+import Collaborator from "../components/Collaborator";
 
 const Project = () => {
   const params = useParams();
@@ -79,7 +81,7 @@ const Project = () => {
           <p>Aún no has agregado tareas en este proyecto</p>
         )}
       </div>
-      <div className="flex items-center justify-between mt-10 border">
+      <div className="flex items-center justify-between mt-10">
         <p className="text-2xl mt-4 text-center">Colaboradores</p>
         <Link
           to={`/projects/new-colaborator/${project._id}`}
@@ -88,8 +90,18 @@ const Project = () => {
           Añadir
         </Link>
       </div>
+      <div>
+        {project.collaborators?.length ? (
+          project.collaborators?.map((collaborator) => (
+            <Collaborator key={collaborator._id} collaborator={collaborator} />
+          ))
+        ) : (
+          <p>Aún no has agregado colaboradores a este proyecto</p>
+        )}
+      </div>
       <ModalFormTasks />
       <ModalDeleteTask />
+      <ModalDeleteCollaborator />
     </>
   );
 };
