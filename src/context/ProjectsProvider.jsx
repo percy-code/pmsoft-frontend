@@ -14,7 +14,7 @@ const ProjectsProvider = ({ children }) => {
   const [modalDeleteTask, setModalDeleteTask] = useState(false);
   const [collaborator, setCollaborator] = useState({});
   const [modalDeleteCollaborator, setModalDeleteCollaborator] = useState(false);
-
+  const [search, setSearch] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ProjectsProvider = ({ children }) => {
     getProjects();
   }, []);
 
-  //** Function to handle alert */
+  /* Function to handle alert */
   const showAlert = (alert) => {
     setAlert(alert);
 
@@ -48,7 +48,7 @@ const ProjectsProvider = ({ children }) => {
     }, 2000);
   };
 
-  //** Function to Send Project and Create */
+  /* Function to Send Project and Create */
   const submitProject = async (project) => {
     if (project.id) {
       await editProject(project);
@@ -57,7 +57,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** GET ONE PROJECT */
+  /* GET ONE PROJECT */
   const getOneProject = async (id) => {
     setLoading(true);
     try {
@@ -73,17 +73,22 @@ const ProjectsProvider = ({ children }) => {
 
       const { data } = await clientAxios(`/projects/${id}`, config);
       setProject(data.data.existsProject);
+      setAlert({});
     } catch (error) {
+      navigate("/projects");
       setAlert({
         message: error.response.data.message,
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 3000);
     } finally {
       setLoading(false);
     }
   };
 
-  //** EDIT ONE PROJECT */
+  /* EDIT ONE PROJECT */
   const editProject = async (project) => {
     try {
       const token = localStorage.getItem("token");
@@ -123,7 +128,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** CREATE NEW PROJECT */
+  /* CREATE NEW PROJECT */
   const newProject = async (project) => {
     try {
       const token = localStorage.getItem("token");
@@ -153,7 +158,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** DELETE ONE PROJECT */
+  /* DELETE ONE PROJECT */
   const deleteProject = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -189,14 +194,14 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** HANDLE MODAL IN CREATE TASK */
+  /* HANDLE MODAL IN CREATE TASK */
   const handleModalFormTask = () => {
     setModalFormTask(!modalFormTask);
     // Reset the objet that contain the task
     setTask({});
   };
 
-  //** FUNCTION TO CREATE A TASK */
+  /* FUNCTION TO CREATE A TASK */
   const createTask = async (task) => {
     try {
       const token = localStorage.getItem("token");
@@ -223,7 +228,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** EDIT A TASK */
+  /* EDIT A TASK */
   const editTask = async (task) => {
     try {
       const token = localStorage.getItem("token");
@@ -253,7 +258,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** HANDLE CREATE A NEW TASK */
+  /* HANDLE CREATE A NEW TASK */
   const submitTask = async (task) => {
     // Save task in database
     // Get project of task
@@ -264,19 +269,21 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** HANDLE TO EDIT A TASK */
+  /* HANDLE TO EDIT A TASK */
   const handleModalEditTask = (task) => {
     setTask(task);
     setModalFormTask(true);
   };
 
-  //** HANDLE TO DELETE ONE TASK */
+  /* HANDLE TO DELETE ONE TASK */
   const handleModalDeleteTask = (taskParam) => {
+    console.log("Eliminando la tarea");
     setTask(taskParam);
     setModalDeleteTask(!modalDeleteTask);
+    console.log("Terminando de eliminar la tarea");
   };
 
-  //** FUNCTION TO DELETE ONE TASK */
+  /* FUNCTION TO DELETE ONE TASK */
   const deleteOneTask = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -312,7 +319,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** HANDLE TO ADD COLLABORATOR TO PROJECT */
+  /* HANDLE TO ADD COLLABORATOR TO PROJECT */
   const submitCollaborator = async (email) => {
     setLoading(true);
     try {
@@ -344,7 +351,7 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** FUNCTION TO ADD COLLABORATOR */
+  /* FUNCTION TO ADD COLLABORATOR */
   const addCollaborator = async (email) => {
     try {
       const token = localStorage.getItem("token");
@@ -370,7 +377,9 @@ const ProjectsProvider = ({ children }) => {
       });
 
       setCollaborator({});
-      setAlert({});
+      setTimeout(() => {
+        setAlert({});
+      }, 3000);
     } catch (error) {
       console.error("Error en Catch", error);
       setAlert({
@@ -380,13 +389,13 @@ const ProjectsProvider = ({ children }) => {
     }
   };
 
-  //** HANDLE MODAL TO DELETE A COLLABORATOR */
+  /* HANDLE MODAL TO DELETE A COLLABORATOR */
   const handleModalDeleteCollaborator = (collaborator) => {
     setModalDeleteCollaborator(!modalDeleteCollaborator);
     setCollaborator(collaborator);
   };
 
-  //** FUNCTION TO DELETE A COLLABORATOR */
+  /* FUNCTION TO DELETE A COLLABORATOR */
   const deleteCollaborator = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -420,11 +429,49 @@ const ProjectsProvider = ({ children }) => {
       });
       setCollaborator({});
       setModalDeleteCollaborator(false);
+
+      setTimeout(() => {
+        setAlert({});
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
   };
 
+  /* FUNCTION TO COMPLETE A TASK */
+  const completeTask = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.post(
+        `/tasks/status/${id}`,
+        {},
+        config
+      );
+      // Update in the state
+      const projectUpdated = { ...project }; // Tomamos una copia desde el state
+      projectUpdated.tasks = projectUpdated.tasks.map((taskState) =>
+        taskState._id === data._id ? data : taskState
+      );
+      setProject(projectUpdated);
+      setTask({});
+      setAlert({});
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const handleSearch = () => {
+    setSearch(!search);
+  };
   return (
     <ProjectsContext.Provider
       value={{
@@ -450,6 +497,9 @@ const ProjectsProvider = ({ children }) => {
         modalDeleteCollaborator,
         handleModalDeleteCollaborator,
         deleteCollaborator,
+        completeTask,
+        search,
+        handleSearch,
       }}
     >
       {children}

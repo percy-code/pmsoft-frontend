@@ -18,10 +18,14 @@ import {
 import { RiDashboardFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo-transparent.png";
+import useAuth from "../hooks/useAuth";
 
 const SidebarMain = () => {
   const [open, setOpen] = useState(true);
   const [submenuOpen, setSubMenuOpen] = useState(false);
+
+  const { auth } = useAuth();
+
   const Menus = [
     // { id: 1, title: "Dashboard", url: "/projects" },
     {
@@ -109,6 +113,7 @@ const SidebarMain = () => {
         />
       </div> */}
 
+      <p>Hola: {auth.name}</p>
       <ul className="pt-2">
         {Menus.map((menu, index) => (
           <div key={index}>
