@@ -18,7 +18,7 @@ const ProtectedRoutes = () => {
             <SidebarMain />
             <main className="bg-gray-100 flex-1">
               <Header />
-              <div className="mx-10">
+              <div className="mx-6 lg:mx-10">
                 <Outlet />
               </div>
             </main>

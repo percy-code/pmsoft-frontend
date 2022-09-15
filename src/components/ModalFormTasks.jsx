@@ -78,7 +78,7 @@ const ModalFormularioTarea = () => {
         className="fixed z-10 inset-0 overflow-y-auto"
         onClose={handleModalFormTask}
       >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex items-end justify-center min-h-screen pt-4 px-4 w-full pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -108,7 +108,7 @@ const ModalFormularioTarea = () => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div className="w-full inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                 <button
                   type="button"
@@ -143,9 +143,14 @@ const ModalFormularioTarea = () => {
                   {message && <Alert alert={alert} />}
 
                   {/* Form */}
-                  <form action="" className="my-10" onSubmit={handleSubmit}>
+                  <form className="my-10" onSubmit={handleSubmit}>
                     <div className="mb-5">
-                      <label htmlFor="name">Tarea</label>
+                      <label
+                        htmlFor="name"
+                        className="w-full flex justify-start"
+                      >
+                        Tarea
+                      </label>
                       <input
                         type="text"
                         id="name"
@@ -156,7 +161,12 @@ const ModalFormularioTarea = () => {
                       />
                     </div>
                     <div className="mb-5">
-                      <label htmlFor="name">Descripción</label>
+                      <label
+                        htmlFor="name"
+                        className="w-full flex justify-start"
+                      >
+                        Descripción
+                      </label>
                       <textarea
                         id="description"
                         className="border w-full p-2 mt-2 placeholder-gray-400 rounded-lg"
@@ -166,7 +176,12 @@ const ModalFormularioTarea = () => {
                       />
                     </div>
                     <div className="mb-5">
-                      <label htmlFor="date-delivery">Fecha Entrega</label>
+                      <label
+                        htmlFor="date-delivery"
+                        className="w-full flex justify-start"
+                      >
+                        Fecha Entrega
+                      </label>
                       <input
                         type="date"
                         id="date-delivery"
@@ -176,7 +191,12 @@ const ModalFormularioTarea = () => {
                       />
                     </div>
                     <div className="mb-5">
-                      <label htmlFor="priority">Prioridad</label>
+                      <label
+                        htmlFor="priority"
+                        className="w-full flex justify-start"
+                      >
+                        Prioridad
+                      </label>
                       <select
                         name="priority"
                         id="priority"

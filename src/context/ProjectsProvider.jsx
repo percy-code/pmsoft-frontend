@@ -1,6 +1,10 @@
 import { useState, useEffect, createContext } from "react";
+import useAuth from "../hooks/useAuth";
 import clientAxios from "../config/clientAxios";
 import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
+
+let socket;
 
 const ProjectsContext = createContext();
 
@@ -16,6 +20,7 @@ const ProjectsProvider = ({ children }) => {
   const [modalDeleteCollaborator, setModalDeleteCollaborator] = useState(false);
   const [search, setSearch] = useState(false);
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   useEffect(() => {
     const getProjects = async () => {
@@ -37,6 +42,11 @@ const ProjectsProvider = ({ children }) => {
       }
     };
     getProjects();
+  }, [auth]);
+
+  // useEffect for connect to SocketIO
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_BACKEND_URL);
   }, []);
 
   /* Function to handle alert */
@@ -218,11 +228,14 @@ const ProjectsProvider = ({ children }) => {
       const { data } = await clientAxios.post("/tasks", task, config);
 
       // Add task to state when create a new project and hide modal
-      const projectUpdated = { ...project };
-      projectUpdated.tasks = [...project.tasks, data.data];
-      setProject(projectUpdated);
+      // const projectUpdated = { ...project };
+      // projectUpdated.tasks = [...project.tasks, data.data];
+      // setProject(projectUpdated);
       setAlert({});
       setModalFormTask(false);
+
+      // SOCKETIO
+      socket.emit("new task", data);
     } catch (error) {
       console.log(error);
     }
@@ -244,15 +257,17 @@ const ProjectsProvider = ({ children }) => {
       const { data } = await clientAxios.put(`/tasks/${task.id}`, task, config);
 
       // Actualizar el DOM
-      const projectUpdate = { ...project };
-      projectUpdate.tasks = projectUpdate.tasks.map((taskState) =>
-        taskState._id === data.data._id ? data.data : taskState
-      );
-
-      setProject(projectUpdate);
+      // const projectUpdate = { ...project };
+      // projectUpdate.tasks = projectUpdate.tasks.map((taskState) =>
+      //   taskState._id === data.data._id ? data.data : taskState
+      // );
+      // setProject(projectUpdate);
 
       setAlert({});
       setModalFormTask(false);
+
+      // SOCKETIO
+      socket.emit("update task", data.data);
     } catch (error) {
       console.log(error);
     }
@@ -302,14 +317,16 @@ const ProjectsProvider = ({ children }) => {
         error: false,
       });
 
-      // Actualizar el DOM
-      const projectUpdate = { ...project };
-
-      projectUpdate.tasks = projectUpdate.tasks.filter(
-        (taskState) => taskState._id !== task._id
-      );
-      setProject(projectUpdate);
+      // // Actualizar el DOM
+      // const projectUpdate = { ...project };
+      // projectUpdate.tasks = projectUpdate.tasks.filter(
+      //   (taskState) => taskState._id !== task._id
+      // );
+      // setProject(projectUpdate);
       setModalDeleteTask(false);
+
+      // SocketIO
+      socket.emit("delete task", task);
       setTask({});
       setTimeout(() => {
         setAlert({});
@@ -457,21 +474,68 @@ const ProjectsProvider = ({ children }) => {
         config
       );
       // Update in the state
-      const projectUpdated = { ...project }; // Tomamos una copia desde el state
-      projectUpdated.tasks = projectUpdated.tasks.map((taskState) =>
-        taskState._id === data._id ? data : taskState
-      );
-      setProject(projectUpdated);
+      // const projectUpdated = { ...project }; // Tomamos una copia desde el state
+      // projectUpdated.tasks = projectUpdated.tasks.map((taskState) =>
+      //   taskState._id === data._id ? data : taskState
+      // );
+      // setProject(projectUpdated);
       setTask({});
       setAlert({});
+
+      // SOCKET
+      socket.emit("change status", data);
     } catch (error) {
       console.log(error.response);
     }
   };
 
+  /* Modal of Search */
   const handleSearch = () => {
     setSearch(!search);
   };
+
+  /* SOCKET.IO FUNCTIONS */
+  const submitTaskProject = (task) => {
+    // Add task into the project of room
+    const projectUpdated = { ...project };
+    projectUpdated.tasks = [...projectUpdated.tasks, task];
+    setProject(projectUpdated);
+  };
+
+  const deleteTaskOfProject = (task) => {
+    // Actualizar el DOM
+    const projectUpdate = { ...project };
+    projectUpdate.tasks = projectUpdate.tasks.filter(
+      (taskState) => taskState._id !== task._id
+    );
+    setProject(projectUpdate);
+  };
+
+  const updateTaskInProject = (task) => {
+    // Actualizar el DOM
+    const projectUpdate = { ...project };
+
+    projectUpdate.tasks = projectUpdate.tasks.map((taskState) =>
+      taskState._id === task._id ? task : taskState
+    );
+    setProject(projectUpdate);
+  };
+
+  const changeStateOfTask = (task) => {
+    // Update in the state
+    const projectUpdated = { ...project }; // Tomamos una copia desde el state
+    projectUpdated.tasks = projectUpdated.tasks.map((taskState) =>
+      taskState._id === task._id ? task : taskState
+    );
+    setProject(projectUpdated);
+  };
+
+  const logoutSessionProjects = () => {
+    setProjects([]);
+    setProject({});
+    setAlert({});
+  };
+
   return (
     <ProjectsContext.Provider
       value={{
@@ -500,6 +564,11 @@ const ProjectsProvider = ({ children }) => {
         completeTask,
         search,
         handleSearch,
+        submitTaskProject,
+        deleteTaskOfProject,
+        updateTaskInProject,
+        changeStateOfTask,
+        logoutSessionProjects,
       }}
     >
       {children}

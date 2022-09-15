@@ -1,34 +1,101 @@
 import React, { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import SpinnerLoading from "../components/SpinnerLoading";
 import useProjects from "../hooks/useProjects";
 import ModalFormTasks from "../components/ModalFormTasks";
 import ModalDeleteTask from "../components/ModalDeleteTask";
 import ModalDeleteCollaborator from "../components/ModalDeleteCollaborator";
 import Task from "../components/Task";
-import Alert from "../components/Alert";
 import Collaborator from "../components/Collaborator";
 import useAdmin from "../hooks/useAdmin";
+import io from "socket.io-client";
+import { TiArrowBack } from "react-icons/ti";
+import { AiOutlineUserAdd } from "react-icons/ai";
+
+let socket;
 
 const Project = () => {
   const params = useParams();
   const { id } = params;
-  const { getOneProject, project, loading, handleModalFormTask, alert } =
-    useProjects();
+  const {
+    getOneProject,
+    project,
+    loading,
+    handleModalFormTask,
+    alert,
+    submitTaskProject,
+    deleteTaskOfProject,
+    updateTaskInProject,
+    changeStateOfTask,
+  } = useProjects();
   const { name } = project;
-
+  const navigate = useNavigate();
   const admin = useAdmin();
 
   useEffect(() => {
     getOneProject(id);
   }, []);
-  if (loading) return <SpinnerLoading />;
+
+  useEffect(() => {
+    // Connect to server SocketIO
+    socket = io(import.meta.env.VITE_BACKEND_URL);
+
+    // Create an event
+    socket.emit("open project", params.id);
+  }, []);
+
+  // This useEffect executing all the time
+  // useEffect(() => {
+  //   socket.on("response", (persoun) => {
+  //     console.log(persoun);
+  //   });
+  // });
+
+  useEffect(() => {
+    socket.on("task add", (taskNew) => {
+      if (taskNew.project === project._id) {
+        submitTaskProject(taskNew);
+      }
+    });
+
+    socket.on("task deleted", (taskDeleted) => {
+      if (taskDeleted.project === project._id) {
+        // Update the state
+        deleteTaskOfProject(taskDeleted);
+      }
+    });
+
+    socket.on("task updated", (taskUpdated) => {
+      if (taskUpdated.project._id === project._id) {
+        updateTaskInProject(taskUpdated);
+      }
+    });
+
+    socket.on("new state", (newStateOfTask) => {
+      if (newStateOfTask.project._id === project._id) {
+        changeStateOfTask(newStateOfTask);
+      }
+    });
+  });
+
+  if (loading)
+    return (
+      <div className="flex flex-1 justify-center h-screen mt-4">
+        <SpinnerLoading />
+      </div>
+    );
 
   const { message } = alert;
 
   return (
     <>
-      <div className="mt-10 rounded-lg py-4 flex justify-between">
+      <div className="lg:mt-10 rounded-lg py-4 flex flex-col gap-3 justify-between lg:flex-row">
+        <TiArrowBack
+          size={30}
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <h1 className="font-black text-2xl">{name}</h1>
 
         {admin && (
@@ -53,6 +120,7 @@ const Project = () => {
           </div>
         )}
       </div>
+
       {admin && (
         <button
           onClick={handleModalFormTask}
@@ -80,7 +148,7 @@ const Project = () => {
       {/* <div className="flex justify-center">
         <div className="md:w-1/3">{message && <Alert alert={alert} />}</div>
       </div> */}
-      <div>
+      <div className="">
         {project.tasks?.length ? (
           project.tasks?.map((task) => <Task key={task._id} task={task} />)
         ) : (
@@ -90,12 +158,12 @@ const Project = () => {
       {admin && (
         <>
           <div className="flex items-center justify-between mt-10">
-            <p className="text-2xl mt-4 text-center">Colaboradores</p>
+            <p className="text-2xl lg:mt-4 text-center">Colaboradores</p>
             <Link
               to={`/projects/new-colaborator/${project._id}`}
-              className="font-bold"
+              className="flex gap-1"
             >
-              Añadir
+              <AiOutlineUserAdd size={25} />
             </Link>
           </div>
           <div>

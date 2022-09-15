@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import FormProject from "../components/FormProject";
 import useProjects from "../hooks/useProjects";
+import { TiArrowBack } from "react-icons/ti";
 
 const EditProject = () => {
   const params = useParams();
   const { getOneProject, project, loading, deleteProject } = useProjects();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getOneProject(params.id);
@@ -20,9 +22,16 @@ const EditProject = () => {
   if (loading) return "Cargando...";
   return (
     <div>
-      <div className="bg-white shadow mt-10 rounded-lg mx-10 p-4 flex justify-between">
+      <TiArrowBack
+        size={30}
+        onClick={() => {
+          navigate(-1);
+        }}
+        className="mt-2"
+      />
+      <div className="bg-white shadow mt-10 rounded-lg sm:mx-10 p-4 flex flex-col sm:flex-row justify-between">
         <h1 className="font-black text-xl">Editar proyecto: {project.name}</h1>
-        <div className="flex items-center gap-2 text-gray-400 hover:text-black">
+        <div className="flex items-center mt-2 gap-2 text-gray-400 hover:text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

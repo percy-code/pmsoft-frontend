@@ -8,6 +8,7 @@ const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   // Validate if exists token
   useEffect(() => {
     const authenticateUser = async () => {
@@ -36,8 +37,12 @@ const AuthProvider = ({ children }) => {
     authenticateUser();
   }, []);
 
+  const logout = () => {
+    setAuth({});
+  };
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth, loading }}>
+    <AuthContext.Provider value={{ auth, setAuth, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

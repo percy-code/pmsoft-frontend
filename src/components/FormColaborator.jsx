@@ -25,8 +25,7 @@ const FormColaborator = () => {
 
   return (
     <form
-      action=""
-      className="bg-white py-10 px-5 md:w-1/2 shadow"
+      className="w-full bg-white py-10 px-5 md:w-1/2 shadow"
       onSubmit={handleSubmit}
     >
       {message && <Alert alert={alert} />}
@@ -39,7 +38,9 @@ const FormColaborator = () => {
         />
       </div>
       {/* <input type="submit" value={"Buscar colaborador"} /> */}
-      <Button type="submit">Buscar colaborador</Button>
+      <Button type="submit" className="w-full lg:w-1/2">
+        Buscar colaborador
+      </Button>
     </form>
   );
 };

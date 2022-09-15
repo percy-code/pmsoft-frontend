@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import FormColaborator from "../components/FormColaborator";
 
 import useProjects from "../hooks/useProjects";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import Alert from "../components/Alert";
+import { TiArrowBack } from "react-icons/ti";
 
 const NewColaborator = () => {
   const {
@@ -16,6 +17,7 @@ const NewColaborator = () => {
     alert,
   } = useProjects();
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getOneProject(params.id);
@@ -24,6 +26,13 @@ const NewColaborator = () => {
   if (!project._id) return <Alert alert={alert} />;
   return (
     <>
+      <TiArrowBack
+        size={30}
+        onClick={() => {
+          navigate(-1);
+        }}
+        className="mt-4"
+      />
       <h1 className="mt-10 text-center font-3xl font-bold">
         Añadir colaborador(a) al proyecto: {project.name}
       </h1>
@@ -36,7 +45,7 @@ const NewColaborator = () => {
       ) : (
         collaborator._id && (
           <div className="flex justify-center mt-10">
-            <div className="bg-white py-10 px-5 md:w-1/2 rounded-lg shadow">
+            <div className="w-full bg-white py-10 px-5 md:w-1/2 rounded-lg shadow">
               <h2 className="text-center mb-10 text-2xl font-bold">
                 Resultado:
               </h2>

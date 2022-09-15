@@ -7,7 +7,7 @@ const PreviewProject = ({ project }) => {
   const { auth } = useAuth();
   const { name, _id, client, owner } = project;
   return (
-    <div className="border-b p-5 flex justify-between items-center">
+    <div className="border-b p-5 flex flex-col gap-4 justify-between items-center lg:flex-row">
       <div>
         <p className="text-md">{name}</p>
         <span className="text-xs text-gray-500 uppercase">

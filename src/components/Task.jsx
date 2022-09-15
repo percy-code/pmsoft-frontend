@@ -9,8 +9,9 @@ const Task = ({ task }) => {
   const { handleModalEditTask, handleModalDeleteTask, completeTask } =
     useProjects();
   const admin = useAdmin();
+
   return (
-    <div className="border-b p-5 flex justify-between bg-white m-6 rounded-xl">
+    <div className="border-b p-5 flex flex-col justify-between bg-white my-6 rounded-xl lg:flex-row">
       <div>
         <p className="text-ls mb-2">{name}</p>
         <p className="text-sm mb-2 text-gray-500 uppercase">{description}</p>
@@ -19,14 +20,18 @@ const Task = ({ task }) => {
           Fecha de Entrega: {formatDate(dateDelivery)}
         </p>
         {status && (
-          <p className="text-xs bg-green-600 uppercase p-1 rounded-lg text-white w-1/2">
+          <p className="text-xs bg-green-600 uppercase p-1 rounded-lg text-white lg:w-1/2">
             Completado por: {task.completed.name}
           </p>
         )}
       </div>
-      <div className="flex justify-center items-center gap-1">
+      <div className="flex flex-col justify-center items-center mt-4 gap-1 sm:flex-row lg:mt-0">
         {admin && (
-          <Button color="blue" onClick={() => handleModalEditTask(task)}>
+          <Button
+            color="blue"
+            onClick={() => handleModalEditTask(task)}
+            className="w-full"
+          >
             Editar
           </Button>
         )}
@@ -34,12 +39,17 @@ const Task = ({ task }) => {
         <Button
           color={`${status ? "green" : "gray"}`}
           onClick={() => completeTask(_id)}
+          className="w-full"
         >
           {status ? "Completa" : "Incompleta"}
         </Button>
 
         {admin && (
-          <Button color="red" onClick={() => handleModalDeleteTask(task)}>
+          <Button
+            color="red"
+            onClick={() => handleModalDeleteTask(task)}
+            className="w-full"
+          >
             Eliminar
           </Button>
         )}
