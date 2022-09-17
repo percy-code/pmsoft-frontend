@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Alert from "../components/Alert";
 import Logo from "../assets/images/logo-transparent.png";
 import clientAxios from "../config/clientAxios";
+import { Input, Button } from "@material-tailwind/react";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -84,7 +85,6 @@ const Register = () => {
       </h2>
       {message && <Alert alert={alert} />}
       <form
-        action=""
         className="my-10 bg-white shadow rounded-lg px-10 py-5"
         onSubmit={handleSubmit}
       >
@@ -99,11 +99,26 @@ const Register = () => {
             <input
               id="name"
               type="text"
-              placeholder="Ingresa tu nombre"
               className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+            {/* <Input
+              variant="static"
+              label="Nombre"
+              placeholder="Ingresa tu nombre"
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            /> */}
+            {/* <Input
+              label="Ingresa tu nombre"
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            /> */}
           </div>
           <div className="my-5">
             <label
@@ -154,11 +169,14 @@ const Register = () => {
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
         </div>
-        <input
+        {/* <input
           type="submit"
           value={"Registrarse"}
           className="bg-sky-700 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
-        />
+        /> */}
+        <Button type="submit" className="w-full">
+          Registrarse
+        </Button>
       </form>
 
       <nav className="lg:flex lg:justify-between">
