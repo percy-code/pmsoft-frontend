@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo-transparent.png";
 import Alert from "../components/Alert";
 import axios from "axios";
+import { Button, Input } from "@material-tailwind/react";
 
 const RecoveryPassword = () => {
   const [email, setEmail] = useState("");
@@ -42,29 +43,21 @@ const RecoveryPassword = () => {
       <div className="flex justify-center">
         <img src={Logo} alt="" className="w-7/12" />
       </div>
-      <h2 className="font-semibold text-xl uppercase text-center mt-10">
-        Restablecer mi contraseña
-      </h2>
       {message && <Alert alert={alert} />}
       <form
-        action=""
-        className="my-10 bg-white shadow rounded-lg px-10 py-5"
+        className="my-6 bg-white shadow rounded-lg px-10 py-5 pb-10"
         onSubmit={handleSubmit}
       >
-        <div className="my-5">
-          <label
-            htmlFor="email"
-            className="uppercase text-gray-600 block text-lg font-semibold"
-          >
-            Email
-          </label>
-          <input
+        <div>
+          <h2 className="my-8 font-semibold text-xl uppercase text-center">
+            Restablecer mi contraseña
+          </h2>
+          <Input
+            label="Email"
             id="email"
             type="text"
-            placeholder="Email de registro"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
           />
         </div>
 
@@ -75,19 +68,12 @@ const RecoveryPassword = () => {
         />
       </form>
       <nav className="lg:flex lg:justify-between">
-        <Link
-          to={"/"}
-          className="block text-center my-5 text-slate-500 uppercase text-xs"
-        >
-          ¿Ya tienes una cuenta? <br />
-          Inicia sesión
-        </Link>
-        <Link
-          to={"/register"}
-          className="block text-center my-5 text-slate-500 uppercase text-xs"
-        >
-          ¿No tienes una cuenta? Regístrate
-        </Link>
+        <p className="block text-center my-5 text-slate-500 text-xs">
+          ¿Ya tienes una cuenta?
+          <Link to={"/"} className="block text-center text-slate-500 text-xs">
+            Inicia sesión
+          </Link>
+        </p>
       </nav>
     </>
   );

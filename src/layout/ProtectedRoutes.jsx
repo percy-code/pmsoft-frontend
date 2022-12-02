@@ -12,17 +12,15 @@ const ProtectedRoutes = () => {
   return (
     <>
       {auth._id ? (
-        <div>
-          <div className="md:flex md:min-h-screen">
-            {/* <Sidebar /> */}
-            <SidebarMain />
-            <main className="bg-gray-100 flex-1">
-              <Header />
-              <div className="mx-6 lg:mx-10">
-                <Outlet />
-              </div>
-            </main>
-          </div>
+        <div className="md:flex md:min-h-screen">
+          {/* <Sidebar /> */}
+          <SidebarMain />
+          <main className="bg-gray-100 flex-1">
+            <Header />
+            <div className="mx-3 pb-10 lg:mx-10">
+              <Outlet />
+            </div>
+          </main>
         </div>
       ) : (
         <Navigate to={"/"} />

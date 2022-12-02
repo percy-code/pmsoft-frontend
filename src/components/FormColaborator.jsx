@@ -1,5 +1,5 @@
-import { Button, Input } from "@material-tailwind/react";
 import React, { useState } from "react";
+import { Button, Input } from "@material-tailwind/react";
 import useProjects from "../hooks/useProjects";
 import Alert from "./Alert";
 
@@ -12,7 +12,7 @@ const FormColaborator = () => {
     e.preventDefault();
     if (email === "") {
       showAlert({
-        message: "El email es obligatorio",
+        message: "Debe ingresar un correo electrónico",
         error: true,
       });
       return;
@@ -25,7 +25,7 @@ const FormColaborator = () => {
 
   return (
     <form
-      className="w-full bg-white py-10 px-5 md:w-1/2 shadow"
+      className="w-full bg-white pb-10 px-5 md:w-1/2 shadow"
       onSubmit={handleSubmit}
     >
       {message && <Alert alert={alert} />}

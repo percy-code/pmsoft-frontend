@@ -21,6 +21,10 @@ const Login = () => {
         message: "Todos los campos son obligatorios",
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
+      return;
     }
 
     try {
@@ -48,9 +52,7 @@ const Login = () => {
       <div className="flex justify-center">
         <img src={Logo} alt="" className="w-7/12" />
       </div>
-      {/* <h2 className="font-semibold text-xl uppercase text-center mt-10">
-        Iniciar Sesión
-      </h2> */}
+      {message && <Alert alert={alert} />}
 
       <form
         className="my-6 bg-white shadow rounded-lg px-10 py-5 pb-10"
@@ -60,20 +62,6 @@ const Login = () => {
           <h2 className="my-8 font-semibold text-xl uppercase text-center">
             Iniciar Sesión
           </h2>
-          {/* <label
-            htmlFor="email"
-            className="uppercase text-gray-600 block text-lg font-semibold"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            type="text"
-            placeholder="Ingresa tu correo"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-          /> */}
           <Input
             label="Email"
             id="email"
@@ -83,20 +71,6 @@ const Login = () => {
           />
         </div>
         <div className="my-5">
-          {/* <label
-            htmlFor="password"
-            className="uppercase text-gray-600 block text-lg font-semibold"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Ingresa tu contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-          /> */}
           <Input
             label="Password"
             id="password"
@@ -105,24 +79,21 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {/* <input
-          type="submit"
-          value={"Iniciar sesión"}
-          className="bg-cyan-800 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
-        /> */}
         <Button className="w-full" type="submit">
           Iniciar sesión
         </Button>
       </form>
-      {message && <Alert alert={alert} />}
       <nav className="lg:flex lg:justify-between">
-        <Link
-          to={"/register"}
-          className="block text-center my-5 text-slate-500 uppercase text-xs"
-        >
-          ¿No tienes una cuenta? <br />
-          Regístrate
-        </Link>
+        <p className="block text-center my-5 text-slate-500 text-xs">
+          ¿Aún no tienes una cuenta?{" "}
+          <Link
+            to={"/register"}
+            className="block text-center text-slate-500 text-xs"
+          >
+            Regístrate
+          </Link>
+        </p>
+
         <Link
           to={"/recovery-password"}
           className="block text-center my-5 text-slate-500 uppercase text-xs"

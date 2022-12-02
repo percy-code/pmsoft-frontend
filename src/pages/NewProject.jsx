@@ -5,8 +5,10 @@ import { Typography } from "@material-tailwind/react";
 const NewProject = () => {
   return (
     <>
-      <h1 className="text-center mt-10 text-2xl">Crear Nuevo Proyecto</h1>
-      <div className="mt-10 flex justify-center">
+      <h1 className="text-xl font-black my-8 mx-10 text-center uppercase">
+        Crear Nuevo Proyecto
+      </h1>
+      <div className="flex justify-center">
         <FormProject />
       </div>
     </>

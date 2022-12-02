@@ -7,21 +7,25 @@ const PreviewProject = ({ project }) => {
   const { auth } = useAuth();
   const { name, _id, client, owner } = project;
   return (
-    <div className="border-b p-5 flex flex-col gap-4 justify-between items-center lg:flex-row">
-      <div>
+    <div className="bg-white rounded-2xl shadow-lg p-3 flex flex-col gap-2 justify-between items-center lg:flex-row">
+      <div className="w-full">
         <p className="text-md">{name}</p>
-        <span className="text-xs text-gray-500 uppercase">
-          CLIENTE: {client}
-        </span>
-        {auth._id !== owner && (
-          <p className="p-1 text-xs rounded-lg bg-green-500 font-bold text-white uppercase text-center w-1/2">
-            Colaborador
-          </p>
-        )}
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] text-gray-500 uppercase">
+            CLIENTE: {client}
+          </span>
+          {auth._id !== owner && (
+            <span className="text-[10px] p-1 rounded-lg bg-green-500 text-white text-center">
+              Colaborador
+            </span>
+          )}
+        </div>
       </div>
 
-      <Link to={`${_id}`}>
-        <Button>Ver proyecto</Button>
+      <Link to={`${_id}`} className="w-full">
+        <Button size="sm" className="w-full">
+          Ver proyecto
+        </Button>
       </Link>
     </div>
   );

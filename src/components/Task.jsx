@@ -11,16 +11,28 @@ const Task = ({ task }) => {
   const admin = useAdmin();
 
   return (
-    <div className="border-b p-5 flex flex-col justify-between bg-white my-6 rounded-xl lg:flex-row">
+    <div className="border-b p-5 flex flex-col justify-between bg-white my-6 rounded-xl lg:flex-row shadow-xl">
       <div>
-        <p className="text-ls mb-2">{name}</p>
-        <p className="text-sm mb-2 text-gray-500 uppercase">{description}</p>
-        <p className="text-ls mb-2">Prioridad: {priority}</p>
-        <p className="text-ls mb-2">
-          Fecha de Entrega: {formatDate(dateDelivery)}
-        </p>
+        <div>
+          <span className="text-xs text-gray-700 uppercase">Tarea</span>
+          <p className="mb-2 text-sm">{name}</p>
+        </div>
+        <div>
+          <span className="text-xs text-gray-700 uppercase">Descripción</span>
+          <p className="mb-2 text-sm">{description}</p>
+        </div>
+        <div>
+          <span className="text-xs text-gray-700 uppercase">Prioridad</span>
+          <p className="mb-2 text-sm">{priority}</p>
+        </div>
+        <div>
+          <span className="text-xs text-gray-700 uppercase">
+            Fecha de entrega
+          </span>
+          <p className="mb-2 text-sm">{formatDate(dateDelivery)}</p>
+        </div>
         {status && (
-          <p className="text-xs bg-green-600 uppercase p-1 rounded-lg text-white lg:w-1/2">
+          <p className="text-[10px] bg-green-600 uppercase p-1 rounded-lg text-white lg:w-1/2 w-max">
             Completado por: {task.completed.name}
           </p>
         )}
@@ -31,6 +43,7 @@ const Task = ({ task }) => {
             color="blue"
             onClick={() => handleModalEditTask(task)}
             className="w-full"
+            size="sm"
           >
             Editar
           </Button>
@@ -40,8 +53,9 @@ const Task = ({ task }) => {
           color={`${status ? "green" : "gray"}`}
           onClick={() => completeTask(_id)}
           className="w-full"
+          size="sm"
         >
-          {status ? "Completa" : "Incompleta"}
+          {status ? "Incompleta" : "Completar"}
         </Button>
 
         {admin && (
@@ -49,6 +63,7 @@ const Task = ({ task }) => {
             color="red"
             onClick={() => handleModalDeleteTask(task)}
             className="w-full"
+            size="sm"
           >
             Eliminar
           </Button>

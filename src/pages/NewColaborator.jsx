@@ -26,13 +26,15 @@ const NewColaborator = () => {
   if (!project._id) return <Alert alert={alert} />;
   return (
     <>
-      <TiArrowBack
-        size={30}
-        onClick={() => {
-          navigate(-1);
-        }}
-        className="mt-4"
-      />
+      <div className="flex justify-end">
+        <TiArrowBack
+          size={30}
+          onClick={() => {
+            navigate(-1);
+          }}
+          className="mt-4"
+        />
+      </div>
       <h1 className="mt-10 text-center font-3xl font-bold">
         Añadir colaborador(a) al proyecto: {project.name}
       </h1>
@@ -44,11 +46,9 @@ const NewColaborator = () => {
         <p className="text-center">Cargando...</p>
       ) : (
         collaborator._id && (
-          <div className="flex justify-center mt-10">
-            <div className="w-full bg-white py-10 px-5 md:w-1/2 rounded-lg shadow">
-              <h2 className="text-center mb-10 text-2xl font-bold">
-                Resultado:
-              </h2>
+          <div className="flex justify-center my-4">
+            <div className="w-full bg-white py-4 px-5 md:w-1/2 rounded-lg shadow">
+              <h2 className="text-center mb-4 font-bold">Resultado:</h2>
               <div className="flex justify-between items-center">
                 <p>{collaborator.name}</p>
                 <Button
@@ -57,8 +57,9 @@ const NewColaborator = () => {
                       email: collaborator.email,
                     })
                   }
+                  size="sm"
                 >
-                  Agregar al proyecto
+                  Agregar
                 </Button>
               </div>
             </div>

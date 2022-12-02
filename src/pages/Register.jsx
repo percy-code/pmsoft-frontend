@@ -80,113 +80,58 @@ const Register = () => {
       <div className="flex justify-center">
         <img src={Logo} alt="" className="w-7/12" />
       </div>
-      <h2 className="font-semibold text-xl uppercase text-center mt-10">
-        Formulario de Registro
-      </h2>
+
       {message && <Alert alert={alert} />}
       <form
-        className="my-10 bg-white shadow rounded-lg px-10 py-5"
+        className="my-6 bg-white shadow rounded-lg px-10 py-5 pb-10"
         onSubmit={handleSubmit}
       >
-        <div>
-          <div className="my-5">
-            <label
-              htmlFor="name"
-              className="uppercase text-gray-600 block text-lg font-semibold"
-            >
-              Nombre
-            </label>
-            <input
-              id="name"
-              type="text"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {/* <Input
-              variant="static"
-              label="Nombre"
-              placeholder="Ingresa tu nombre"
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            /> */}
-            {/* <Input
-              label="Ingresa tu nombre"
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            /> */}
-          </div>
-          <div className="my-5">
-            <label
-              htmlFor="email"
-              className="uppercase text-gray-600 block text-lg font-semibold"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              type="text"
-              placeholder="Email de registro"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="my-5">
-          <label
-            htmlFor="password"
-            className="uppercase text-gray-600 block text-lg font-semibold"
-          >
-            Password
-          </label>
-          <input
+        <div className="flex flex-col gap-2">
+          <h2 className="my-8 font-semibold text-xl uppercase text-center">
+            Regístrate
+          </h2>
+          <Input
+            label="Nombre"
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            label="Email"
+            id="name"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            label="Contraseña"
             id="password"
             type="password"
-            placeholder="Password de registro"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
-        <div className="my-5">
-          <label
-            htmlFor="password2"
-            className="uppercase text-gray-600 block text-lg font-semibold"
-          >
-            Repite tu contraseña
-          </label>
-          <input
+          <Input
+            label="Repetir contraseña"
             id="password2"
             type="password"
-            placeholder="Ingresa nuevamente tu contraseña"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
             value={repeatPassword}
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
+          <Button type="submit" className="w-full">
+            Registrarse
+          </Button>
         </div>
-        {/* <input
-          type="submit"
-          value={"Registrarse"}
-          className="bg-sky-700 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
-        /> */}
-        <Button type="submit" className="w-full">
-          Registrarse
-        </Button>
       </form>
 
       <nav className="lg:flex lg:justify-between">
-        <Link
-          to={"/"}
-          className="block text-center my-5 text-slate-500 uppercase text-xs"
-        >
-          ¿Ya tienes una cuenta? <br />
-          Inicia sesión
-        </Link>
+        <p className="block text-center my-5 text-slate-500 text-xs">
+          ¿Ya tienes una cuenta?
+          <Link to={"/"} className="block text-center text-slate-500 text-xs">
+            Inicia sesión
+          </Link>
+        </p>
+
         <Link
           to={"/recovery-password"}
           className="block text-center my-5 text-slate-500 uppercase text-xs"

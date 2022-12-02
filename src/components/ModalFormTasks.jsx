@@ -3,6 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import useProjects from "../hooks/useProjects";
 import Alert from "./Alert";
 import { useParams } from "react-router-dom";
+import { Button } from "@material-tailwind/react";
+import { Select, Option, Input, Textarea } from "@material-tailwind/react";
 
 const PRIORITIES = ["Low", "Medium", "High"];
 
@@ -147,30 +149,29 @@ const ModalFormularioTarea = () => {
                     <div className="mb-5">
                       <label
                         htmlFor="name"
-                        className="w-full flex justify-start"
+                        className="w-full flex justify-start my-1"
                       >
                         Tarea
                       </label>
-                      <input
-                        type="text"
+
+                      <Input
+                        label="Ingresa el nombre de la tarea"
                         id="name"
-                        className="border w-full p-2 mt-2 placeholder-gray-400 rounded-lg"
-                        placeholder="Nombre de la tarea"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
                     </div>
                     <div className="mb-5">
                       <label
-                        htmlFor="name"
-                        className="w-full flex justify-start"
+                        htmlFor="description"
+                        className="w-full flex justify-start my-1"
                       >
                         Descripción
                       </label>
-                      <textarea
+
+                      <Textarea
+                        label="Ingresa una descripción"
                         id="description"
-                        className="border w-full p-2 mt-2 placeholder-gray-400 rounded-lg"
-                        placeholder="Descripción de la tarea"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       />
@@ -178,14 +179,13 @@ const ModalFormularioTarea = () => {
                     <div className="mb-5">
                       <label
                         htmlFor="date-delivery"
-                        className="w-full flex justify-start"
+                        className="w-full flex justify-start my-1"
                       >
                         Fecha Entrega
                       </label>
-                      <input
+                      <Input
                         type="date"
                         id="date-delivery"
-                        className="border w-full p-2 mt-2 placeholder-gray-400 rounded-lg"
                         value={dateDelivery}
                         onChange={(e) => setDateDelivery(e.target.value)}
                       />
@@ -193,7 +193,7 @@ const ModalFormularioTarea = () => {
                     <div className="mb-5">
                       <label
                         htmlFor="priority"
-                        className="w-full flex justify-start"
+                        className="w-full flex justify-start my-1"
                       >
                         Prioridad
                       </label>
@@ -211,12 +211,28 @@ const ModalFormularioTarea = () => {
                           </option>
                         ))}
                       </select>
+                      {/* <Select
+                        label="Seleccionar"
+                        name="priority"
+                        id="priority"
+                        value={priority}
+                        onChange={(e) => setPriority(e.target.value)}
+                      >
+                        {PRIORITIES.map((option) => (
+                          <Option key={option} value={option}>
+                            {option}
+                          </Option>
+                        ))}
+                      </Select> */}
                     </div>
-                    <input
+                    <Button
                       type="submit"
                       value={id ? "Actualizar tarea" : "Crear tarea"}
-                      className="bg-cyan-400 hover:bg-cyan-600 w-full border rounded-lg p-3 text-white cursor-pointer"
-                    />
+                      fullWidth
+                      size="sm"
+                    >
+                      {id ? "Actualizar tarea" : "Crear tarea"}
+                    </Button>
                   </form>
                 </div>
               </div>

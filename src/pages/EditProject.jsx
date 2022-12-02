@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import FormProject from "../components/FormProject";
 import useProjects from "../hooks/useProjects";
 import { TiArrowBack } from "react-icons/ti";
+import SpinnerLoading from "../components/SpinnerLoading";
 
 const EditProject = () => {
   const params = useParams();
@@ -19,7 +20,12 @@ const EditProject = () => {
     }
   };
 
-  if (loading) return "Cargando...";
+  if (loading)
+    return (
+      <div className="flex flex-1 justify-center h-screen mt-4">
+        <SpinnerLoading />
+      </div>
+    );
   return (
     <div>
       <TiArrowBack
