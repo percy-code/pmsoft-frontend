@@ -42,14 +42,6 @@ const Register = () => {
 
     // Create User
     try {
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_BACKEND_URL}/api/users`,
-      //   {
-      //     name,
-      //     email,
-      //     password,
-      //   }
-      // );
       const { data } = await clientAxios.post("/users", {
         name,
         email,
@@ -65,7 +57,6 @@ const Register = () => {
       setPassword("");
       setRepeatPassword("");
     } catch (error) {
-      // This is message error from Axios
       setAlert({
         message: error.response.data,
         error: true,
@@ -99,7 +90,7 @@ const Register = () => {
           />
           <Input
             label="Email"
-            id="name"
+            id="email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

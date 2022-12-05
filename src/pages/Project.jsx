@@ -90,29 +90,30 @@ const Project = () => {
 
   return (
     <>
-      <div className="flex flex-row mt-6 lg:mt-10 rounded-lg py-4 gap-3 justify-between lg:flex-row">
+      <div className="bg-white shadow my-10 rounded-lg sm:mx-10 p-4 flex sm:flex-row justify-between">
         <div className="">
+          <p className="text-xs">Proyecto:</p>
           <h1 className="font-black text-2xl">{name}</h1>
-
+          {/* Button edit */}
           {admin && (
-            <div className="text-xs flex items-center gap-2 text-gray-400 hover:text-black">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-3 h-3"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                />
-              </svg>
-              <Link to={`/projects/edit/${id}`} className="uppercase">
-                Editar
-              </Link>
+            <div className="flex justify-between items-center mt-2 gap-2 text-gray-400 hover:text-black">
+              <div className="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-3 h-3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  />
+                </svg>
+                <Link to={`/projects/edit/${id}`}>Editar</Link>
+              </div>
             </div>
           )}
         </div>
@@ -139,7 +140,7 @@ const Project = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-4 h-4"
           >
             <path
               strokeLinecap="round"
@@ -149,33 +150,10 @@ const Project = () => {
           </svg>
           Agregar tarea
         </Button>
-        // <button
-        //   onClick={handleModalFormTask}
-        //   className="text-sm px-3 py-2 w-full sm:w-auto rounded-lg uppercase font-bold bg-cyan-400 text-white text-center flex gap-2 items-center justify-center"
-        // >
-        //   <svg
-        //     xmlns="http://www.w3.org/2000/svg"
-        //     fill="none"
-        //     viewBox="0 0 24 24"
-        //     strokeWidth={1.5}
-        //     stroke="currentColor"
-        //     className="w-6 h-6"
-        //   >
-        //     <path
-        //       strokeLinecap="round"
-        //       strokeLinejoin="round"
-        //       d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-        //     />
-        //   </svg>
-        //   Nueva tarea
-        // </button>
       )}
 
-      <div className="mt-10">
+      <div className="mt-6">
         <p className="text-xl mt-4 font-medium">Tareas del Proyecto</p>
-        {/* <div className="flex justify-center">
-        <div className="md:w-1/3">{message && <Alert alert={alert} />}</div>
-      </div> */}
         <div>
           {project.tasks?.length ? (
             project.tasks?.map((task) => <Task key={task._id} task={task} />)

@@ -61,11 +61,9 @@ const RecoveryPassword = () => {
           />
         </div>
 
-        <input
-          type="submit"
-          value={"Restablecer contraseña"}
-          className="bg-sky-700 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
-        />
+        <Button type="submit" size="sm" className="my-4">
+          Restablecer contraseña
+        </Button>
       </form>
       <nav className="lg:flex lg:justify-between">
         <p className="block text-center my-5 text-slate-500 text-xs">
