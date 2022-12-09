@@ -42,8 +42,8 @@ const ConfirmAccount = () => {
         {/* {message && <Alert alert={alert} />} */}
         {accountConfirmed ? (
           <>
-            <div className="from-sky-400 to-sky-600 bg-gradient-to-br text-center p-3 rounded-xl uppercase text-white font-bold text-sm my-10">
-              <p>Cuenta confirmada</p>
+            <div className="from-sky-400 to-sky-600 bg-gradient-to-br text-center p-3 rounded-xl uppercase font-bold text-sm my-10">
+              <p>Tu cuenta ha sido confirmada</p>
             </div>
             <Link
               to={"/"}

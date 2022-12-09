@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
 import Logo from "../assets/images/logo-transparent.png";
 import clientAxios from "../config/clientAxios";
@@ -11,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [alert, setAlert] = useState({});
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,22 +20,33 @@ const Register = () => {
         message: "Todos los campos son obligatorios",
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
       return;
     }
 
+    // If password not matched
     if (password != repeatPassword) {
       setAlert({
         message: "No coinciden las contraseñas",
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
       return;
     }
 
+    // If password is less than 6 characters
     if (password.length < 6) {
       setAlert({
         message: "La contraseña es muy corta. Agrega mínimo 6 caracteres",
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
       return;
     }
 
@@ -48,7 +60,7 @@ const Register = () => {
         password,
       });
       setAlert({
-        message: data.message,
+        message: data.data,
         error: false,
       });
 
@@ -56,11 +68,18 @@ const Register = () => {
       setEmail("");
       setPassword("");
       setRepeatPassword("");
+
+      // Redirect to login page
+      setTimeout(() => {
+        navigate("/");
+        setAlert({});
+      }, 5000);
     } catch (error) {
       setAlert({
-        message: error.response.data,
+        message: error.response.data.data,
         error: true,
       });
+      return;
     }
   };
 
@@ -72,13 +91,13 @@ const Register = () => {
         <img src={Logo} alt="" className="w-7/12" />
       </div>
 
-      {message && <Alert alert={alert} />}
       <form
         className="my-6 bg-white shadow rounded-lg px-10 py-5 pb-10"
         onSubmit={handleSubmit}
       >
+        {message && <Alert alert={alert} />}
         <div className="flex flex-col gap-2">
-          <h2 className="my-8 font-semibold text-xl uppercase text-center">
+          <h2 className="my-2 font-semibold text-xl uppercase text-center">
             Regístrate
           </h2>
           <Input
@@ -91,7 +110,7 @@ const Register = () => {
           <Input
             label="Email"
             id="email"
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -109,7 +128,7 @@ const Register = () => {
             value={repeatPassword}
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full mt-4" size="sm">
             Registrarse
           </Button>
         </div>

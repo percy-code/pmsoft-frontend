@@ -17,6 +17,9 @@ const RecoveryPassword = () => {
         message: "El email es obligatorio",
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
       return;
     }
 
@@ -34,6 +37,10 @@ const RecoveryPassword = () => {
         message: error.response.data.message,
         error: true,
       });
+      setTimeout(() => {
+        setAlert({});
+      }, 2000);
+      return;
     }
   };
 
@@ -43,19 +50,20 @@ const RecoveryPassword = () => {
       <div className="flex justify-center">
         <img src={Logo} alt="" className="w-7/12" />
       </div>
-      {message && <Alert alert={alert} />}
+
       <form
-        className="my-6 bg-white shadow rounded-lg px-10 py-5 pb-10"
+        className="my-6 bg-white shadow rounded-lg px-10 py-5"
         onSubmit={handleSubmit}
       >
+        {message && <Alert alert={alert} />}
         <div>
-          <h2 className="my-8 font-semibold text-xl uppercase text-center">
+          <h2 className="my-4 font-semibold text-xl uppercase text-center">
             Restablecer mi contraseña
           </h2>
           <Input
             label="Email"
             id="email"
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
