@@ -29,11 +29,11 @@ const Projects = () => {
       {message && <Alert alert={alert} />}
       <div>
         {projects.length ? (
-          projects.map((project) => (
-            <div className="my-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:mx-10 xl:grid-cols-3 3xl:grid-cols-4 2xl:mx-40">
+          <div className="my-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:mx-10 xl:grid-cols-3 3xl:grid-cols-4 2xl:mx-40">
+            {projects.map((project) => (
               <PreviewProject key={project._id} project={project} />
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <div className="flex flex-col justify-center items-center">
             <p className="mt-5 text-center text-gray-600">
