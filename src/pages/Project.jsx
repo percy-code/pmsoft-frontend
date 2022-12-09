@@ -89,8 +89,8 @@ const Project = () => {
   const { message } = alert;
 
   return (
-    <>
-      <div className="bg-white shadow my-10 rounded-lg sm:mx-10 p-4 flex sm:flex-row justify-between">
+    <div className="md:mx-10">
+      <div className="bg-white shadow my-10 rounded-lg p-4 flex sm:flex-row justify-between">
         <div className="">
           <p className="text-xs">Proyecto:</p>
           <h1 className="font-black text-2xl">{name}</h1>
@@ -127,29 +127,31 @@ const Project = () => {
 
       {/* Button add task */}
       {admin && (
-        <Button
-          size="sm"
-          fullWidth
-          className="flex items-center justify-center gap-1"
-          onClick={handleModalFormTask}
-          ripple={true}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4"
+        <div className="2xl:w-3/12">
+          <Button
+            size="sm"
+            fullWidth
+            className="flex items-center justify-center gap-1"
+            onClick={handleModalFormTask}
+            ripple={true}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Agregar tarea
-        </Button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Agregar tarea
+          </Button>
+        </div>
       )}
 
       <div className="mt-6">
@@ -194,7 +196,7 @@ const Project = () => {
       <ModalFormTasks />
       <ModalDeleteTask />
       <ModalDeleteCollaborator />
-    </>
+    </div>
   );
 };
 

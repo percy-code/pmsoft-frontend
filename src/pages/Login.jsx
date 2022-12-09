@@ -7,8 +7,8 @@ import useAuth from "../hooks/useAuth";
 import { Button, Input } from "@material-tailwind/react";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ppj.tejadadonayre@gmail.com");
+  const [password, setPassword] = useState("111222333");
   const [alert, setAlert] = useState({});
   const { auth, setAuth, loading } = useAuth();
   const navigate = useNavigate();

@@ -57,19 +57,19 @@ const NewPassword = () => {
   const { message } = alert;
   return (
     <>
-      <div className="flex justify-center">
-        <img src={Logo} alt="" className="w-7/12" />
-      </div>
+      <Link to={"/"} className="flex justify-center">
+        <img src={Logo} alt="Logotipo" className="w-7/12" />
+      </Link>
       <h2 className="font-semibold text-xl uppercase text-center mt-10">
         Restablecer mi contraseña
       </h2>
       {message && <Alert alert={alert} />}
       {tokenValid && (
         <form
-          action=""
           className="my-10 bg-white shadow rounded-lg px-10 py-5"
           onSubmit={handleSubmit}
         >
+          {message && <Alert alert={alert} />}
           <div className="my-5">
             <label
               htmlFor="password"
@@ -93,20 +93,6 @@ const NewPassword = () => {
           />
         </form>
       )}
-      {/* <nav className="lg:flex lg:justify-between">
-        <Link
-          to={"/"}
-          className="block text-center my-5 text-slate-500 uppercase text-sm"
-        >
-          ¿Ya tienes una cuenta? Inicia sesión
-        </Link>
-        <Link
-          to={"/recovery-password"}
-          className="block text-center my-5 text-slate-500 uppercase text-sm"
-        >
-          Olvide mi contraseña
-        </Link>
-      </nav> */}
       {passwordChanged && (
         <Link
           to={"/"}
