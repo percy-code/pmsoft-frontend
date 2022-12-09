@@ -30,7 +30,7 @@ const Projects = () => {
       <div>
         {projects.length ? (
           projects.map((project) => (
-            <div className="border-4 my-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:mx-10 xl:grid-cols-3 3xl:grid-cols-4 2xl:mx-40">
+            <div className="my-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:mx-10 xl:grid-cols-3 3xl:grid-cols-4 2xl:mx-40">
               <PreviewProject key={project._id} project={project} />
             </div>
           ))
