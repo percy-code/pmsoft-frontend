@@ -23,7 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<AuthLayout />}>
               <Route index element={<Login />} />
-              <Route path="register" element={<Register />} />
+              {/* <Route path="register" element={<Register />} /> */}
               <Route path="recovery-password" element={<RecoveryPassword />} />
               <Route
                 path="recovery-password/:token"
